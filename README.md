@@ -1,5 +1,5 @@
-# Booksearch
+# Noteful
 
-Simple book search form in React. Hooks into the Google Book API.
+Simple note app in React. Uses React Router
 
-Assignment for Thinkful Module 8 / Checkpoint 13 (API Requests in React)
+Assignment for Thinkful Module 8 / Checkpoint 14 (React Router)
