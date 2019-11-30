@@ -6,16 +6,51 @@ import './App.css'
 import Home from './pages/Home'
 import NotePage from './pages/NotePage'
 
-import data from './assets/data'
+import AppContext from './appContext'
 
 class App extends Component {
 	state = {
-		...data
+		folder: [],
+		notes: []
+	}
+
+	fetchFolders() {
+		fetch(`http://localhost:9090/folders`)
+			.then(res => res.json())
+			.then(resJSON => this.setState({ folders: resJSON }))
+			.catch(err => {
+				console.log(err)
+			})
+	}
+
+	fetchNotes() {
+		fetch(`http://localhost:9090/notes`)
+			.then(res => res.json())
+			.then(resJSON => this.setState({ notes: resJSON }))
+			.catch(err => {
+				console.log(err)
+			})
+	}
+
+	deleteNote = noteId => {
+		console.log(`Note deleted ${noteId}`)
+
+		const newNotes = this.state.notes.filter(note => note.id !== noteId)
+		this.setState({ notes: newNotes })
+	}
+
+	componentDidMount() {
+		this.fetchFolders()
+		this.fetchNotes()
 	}
 
 	render() {
+		const contextValue = {
+			...this.state,
+			deleteNote: this.deleteNote
+		}
 		return (
-			<>
+			<AppContext.Provider value={contextValue}>
 				<header>
 					<h1>
 						<Link to="/">Noteful</Link>
@@ -31,7 +66,7 @@ class App extends Component {
 						</Route>
 					</Switch>
 				</div>
-			</>
+			</AppContext.Provider>
 		)
 	}
 }

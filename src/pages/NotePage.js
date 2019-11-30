@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 
-import data from '../assets/data'
+import AppContext from '../appContext'
 
 function NotePage() {
-	const { notes } = data
+	const { notes = [] } = useContext(AppContext)
 	const { noteId } = useParams()
 
-	const note = notes.find(note => note.id === noteId)
+	const note = notes.find(note => note.id === noteId) || {}
 	console.log(note)
 
 	return (

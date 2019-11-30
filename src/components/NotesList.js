@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 
 import NoteCard from './NoteCard'
 
-import data from '../assets/data'
+import AppContext from '../appContext'
 
 function NotesList() {
-	const { notes } = data
+	const { notes = [] } = useContext(AppContext)
 	const { folderId } = useParams()
 
 	const filteredNotes = folderId
