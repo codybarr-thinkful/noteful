@@ -1,24 +1,24 @@
 import React, { useContext } from 'react'
 import AppContext from '../appContext'
 
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 function FolderList() {
 	const { folders = [] } = useContext(AppContext)
-
-	const folderLinks =
-		folders.map(folder => (
-			<li key={folder.id}>
-				<NavLink to={`/folder/${folder.id}`} activeClassName="active">
-					{folder.name}
-				</NavLink>
-			</li>
-		)) || null
+	const folderList = folders.map(folder => (
+		<li key={folder.id}>
+			<NavLink to={`/folder/${folder.id}`} activeClassName="active">
+				{folder.name}
+			</NavLink>
+		</li>
+	))
 
 	return (
 		<aside>
+			<h2>Folders</h2>
+			<Link to="/add/folder">Add Folder +</Link>
 			<nav>
-				<ul>{folderLinks}</ul>
+				<ul>{folderList}</ul>
 			</nav>
 		</aside>
 	)

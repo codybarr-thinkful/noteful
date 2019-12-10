@@ -1,17 +1,24 @@
 import React, { Component } from 'react'
-import { Link, Switch, Route } from 'react-router-dom'
+import { Link, Switch, Route, withRouter } from 'react-router-dom'
 
 import './App.css'
 
 import Home from './pages/Home'
+import AddFolder from './pages/AddFolder'
+import AddNote from './pages/AddNote'
 import NotePage from './pages/NotePage'
+
+import ErrorBoundary from './components/ErrorBoundary'
 
 import AppContext from './appContext'
 
 class App extends Component {
 	state = {
-		folder: [],
-		notes: []
+		folders: [],
+		notes: [],
+		addFolder: () => {},
+		addNote: () => {},
+		deleteNote: () => {}
 	}
 
 	fetchFolders() {
@@ -32,6 +39,50 @@ class App extends Component {
 			})
 	}
 
+	addFolder = folderName => {
+		fetch(`http://localhost:9090/folders`, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ name: folderName })
+		})
+			.then(res => res.json())
+			.then(resJSON => {
+				const newFolders = [...this.state.folders, resJSON]
+				this.setState({ folders: newFolders })
+
+				this.props.history.push('/')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+	}
+
+	addNote = note => {
+		console.log(`Adding note!`)
+
+		fetch(`http://localhost:9090/notes`, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(note)
+		})
+			.then(res => res.json())
+			.then(newNote => {
+				const newNotes = [...this.state.notes, newNote]
+				this.setState({ notes: newNotes })
+
+				this.props.history.push('/')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+	}
+
 	deleteNote = noteId => {
 		console.log(`Note deleted ${noteId}`)
 
@@ -42,15 +93,17 @@ class App extends Component {
 	componentDidMount() {
 		this.fetchFolders()
 		this.fetchNotes()
+
+		this.setState({
+			addFolder: this.addFolder,
+			addNote: this.addNote,
+			deleteNote: this.deleteNote
+		})
 	}
 
 	render() {
-		const contextValue = {
-			...this.state,
-			deleteNote: this.deleteNote
-		}
 		return (
-			<AppContext.Provider value={contextValue}>
+			<AppContext.Provider value={this.state}>
 				<header>
 					<h1>
 						<Link to="/">Noteful</Link>
@@ -59,10 +112,24 @@ class App extends Component {
 				<div className="wrapper">
 					<Switch>
 						<Route exact path={['/', '/folder/:folderId']}>
-							<Home />
+							<ErrorBoundary message="Failed to load the home page">
+								<Home />
+							</ErrorBoundary>
+						</Route>
+						<Route exact path="/add/folder">
+							<ErrorBoundary message="Could not load Add Folder page">
+								<AddFolder />
+							</ErrorBoundary>
+						</Route>
+						<Route exact path="/add/note">
+							<ErrorBoundary message="Failed to load the home page">
+								<AddNote />
+							</ErrorBoundary>
 						</Route>
 						<Route exact path="/note/:noteId">
-							<NotePage />
+							<ErrorBoundary message="Failed to load note">
+								<NotePage />
+							</ErrorBoundary>
 						</Route>
 					</Switch>
 				</div>
@@ -71,4 +138,4 @@ class App extends Component {
 	}
 }
 
-export default App
+export default withRouter(App)
