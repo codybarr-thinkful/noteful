@@ -4,12 +4,18 @@ import { useParams, useHistory } from 'react-router-dom'
 import AppContext from '../appContext'
 
 function NotePage() {
-	const { notes = [] } = useContext(AppContext)
+	const { notes = [], deleteNote = () => {} } = useContext(AppContext)
 	const { noteId } = useParams()
 	const history = useHistory()
 
 	const note = notes.find(note => note.id === noteId) || {}
-	console.log(note)
+
+	function handleClick(e) {
+		e.preventDefault()
+		deleteNote(note.id, () => {
+			history.push('/')
+		})
+	}
 
 	return (
 		<>
@@ -21,6 +27,10 @@ function NotePage() {
 					<>
 						<h2>{note.name}</h2>
 						<p>{note.content}</p>
+						<p>Date modified: {note.modified}</p>
+						<button onClick={e => handleClick(e)}>
+							Delete Note
+						</button>
 					</>
 				) : (
 					<p>no note here</p>

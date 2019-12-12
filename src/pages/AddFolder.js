@@ -24,6 +24,7 @@ function AddFolder() {
 						aria-label="folder name"
 						placeholder="folder name"
 						name="folder"
+						required
 					/>
 					<button type="submit">Add Folder</button>
 				</form>

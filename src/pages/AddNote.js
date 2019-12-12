@@ -19,7 +19,6 @@ function AddNote() {
 		const content = e.target.content.value
 		const folderId = e.target.folderId.value
 
-		console.table({ name, content, folderId })
 		addNote({ name, content, folderId })
 	}
 

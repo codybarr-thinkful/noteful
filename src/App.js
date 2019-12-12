@@ -61,8 +61,6 @@ class App extends Component {
 	}
 
 	addNote = note => {
-		console.log(`Adding note!`)
-
 		fetch(`http://localhost:9090/notes`, {
 			method: 'POST',
 			headers: {
@@ -83,11 +81,17 @@ class App extends Component {
 			})
 	}
 
-	deleteNote = noteId => {
-		console.log(`Note deleted ${noteId}`)
-
-		const newNotes = this.state.notes.filter(note => note.id !== noteId)
-		this.setState({ notes: newNotes })
+	deleteNote = (noteId, cb) => {
+		fetch(`http://localhost:9090/notes/${noteId}`, {
+			method: 'DELETE',
+			headers: {
+				'content-type': 'application/json'
+			}
+		}).then(() => {
+			const newNotes = this.state.notes.filter(note => note.id !== noteId)
+			this.setState({ notes: newNotes })
+			cb && cb()
+		})
 	}
 
 	componentDidMount() {
