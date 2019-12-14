@@ -71,6 +71,7 @@ class App extends Component {
 		})
 			.then(res => res.json())
 			.then(newNote => {
+				console.log({ newNote })
 				const newNotes = [...this.state.notes, newNote]
 				this.setState({ notes: newNotes })
 
