@@ -10,7 +10,7 @@ function NotesList() {
 	const { folderId } = useParams()
 
 	const filteredNotes = folderId
-		? notes.filter(note => note.folderId === folderId)
+		? notes.filter(note => note.folder_id === parseInt(folderId))
 		: notes
 
 	const noteCards = filteredNotes.map(note => (

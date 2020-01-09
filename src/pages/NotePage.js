@@ -8,7 +8,7 @@ function NotePage() {
 	const { noteId } = useParams()
 	const history = useHistory()
 
-	const note = notes.find(note => note.id === noteId) || {}
+	const note = notes.find(note => note.id === parseInt(noteId)) || {}
 
 	function handleClick(e) {
 		e.preventDefault()

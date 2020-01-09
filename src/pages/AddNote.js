@@ -17,10 +17,10 @@ function AddNote() {
 
 		const name = e.target.name.value
 		const content = e.target.content.value
-		const folderId = e.target.folderId.value
+		const folder_id = e.target.folderId.value
 		const modified = new Date()
 
-		addNote({ name, content, folderId, modified })
+		addNote({ name, content, folder_id, modified })
 	}
 
 	const folderOptions = folders.map(folder => {
