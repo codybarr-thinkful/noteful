@@ -11,10 +11,14 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
+		"prebuild": "CI=true react-scripts test --colors",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"deploy": "yarn build && surge build/ noteful-thinkful.surge.sh"
+		"predeploy": "yarn build",
+		"predeploy:zeit": "yarn build",
+		"deploy": "surge build/ noteful-thinkful.surge.sh",
+		"deploy:zeit": "now --prod ./build"
 	},
 	"eslintConfig": {
 		"extends": "react-app"

@@ -108,7 +108,6 @@ class App extends Component {
 	}
 
 	render() {
-		console.log({ env: process.env })
 		return (
 			<AppContext.Provider value={this.state}>
 				<header>
