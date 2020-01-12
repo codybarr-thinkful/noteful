@@ -10,3 +10,7 @@ Assignment for Thinkful Module 8 / Checkpoint 14 (React Router)
 
 Refactored the app to use the Express API built for the assignment in Checkpoint 19.
 You can find that repo here: https://github.com/codybarr-thinkful/noteful-api
+
+**Checkpoint 20**
+
+Refactored the app to use the production express api in `noteful-api` deployed to heroku.

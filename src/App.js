@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Switch, Route, withRouter } from 'react-router-dom'
+import config from './config'
 
 import './App.css'
 
@@ -22,7 +23,7 @@ class App extends Component {
 	}
 
 	fetchFolders() {
-		fetch(`http://localhost:9090/api/folder`)
+		fetch(`${config.API_ENDPOINT}/folder`)
 			.then(res => res.json())
 			.then(resJSON => this.setState({ folders: resJSON }))
 			.catch(err => {
@@ -31,7 +32,7 @@ class App extends Component {
 	}
 
 	fetchNotes() {
-		fetch(`http://localhost:9090/api/note`)
+		fetch(`${config.API_ENDPOINT}/note`)
 			.then(res => res.json())
 			.then(resJSON => this.setState({ notes: resJSON }))
 			.catch(err => {
@@ -40,7 +41,7 @@ class App extends Component {
 	}
 
 	addFolder = folderName => {
-		fetch(`http://localhost:9090/api/folder`, {
+		fetch(`${config.API_ENDPOINT}/folder`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -61,7 +62,7 @@ class App extends Component {
 	}
 
 	addNote = note => {
-		fetch(`http://localhost:9090/api/note`, {
+		fetch(`${config.API_ENDPOINT}/note`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -83,7 +84,7 @@ class App extends Component {
 	}
 
 	deleteNote = (noteId, cb) => {
-		fetch(`http://localhost:9090/api/note/${noteId}`, {
+		fetch(`${config.API_ENDPOINT}/note/${noteId}`, {
 			method: 'DELETE',
 			headers: {
 				'content-type': 'application/json'
@@ -107,6 +108,7 @@ class App extends Component {
 	}
 
 	render() {
+		console.log({ env: process.env })
 		return (
 			<AppContext.Provider value={this.state}>
 				<header>
